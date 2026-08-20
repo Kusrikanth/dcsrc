@@ -41,6 +41,12 @@ import {
   getKnowledgeBaseByCode,
   kbStorageKey,
 } from "./documentation-store.js";
+import {
+  formatBytes,
+  formatFor,
+  uploadSecureFile,
+} from "./secure-files-store.js";
+import SecureFileViewer from "./SecureFileViewer.jsx";
 
 const initialModules = [
   {
@@ -447,12 +453,13 @@ function RichTextBlock({ block, isAdmin, onChange, onPasteImage }) {
   );
 }
 
-function MediaBlock({ block, isAdmin, onFile, onUpdate }) {
+function MediaBlock({ block, isAdmin, onFile, onUpdate, onOpenSecure }) {
   const inputRef = useRef(null);
   const [url, setUrl] = useState("");
   useEffect(() => {
     let objectUrl = "";
-    if (!block.assetId) {
+    /* Secure attachments are never turned into a URL - see the card below. */
+    if (!block.assetId || block.secureFileId) {
       setUrl("");
       return undefined;
     }
@@ -548,19 +555,38 @@ function MediaBlock({ block, isAdmin, onFile, onUpdate }) {
           <video src={url} controls />
         </div>
       )}
+      {block.secureFileId && (
+        <div style={frameStyle}>
+          <button
+            className="docs-file-preview is-secure"
+            onClick={() => onOpenSecure?.(block.secureFileId)}
+          >
+            <ShieldCheck size={20} />
+            <span>
+              <strong>{block.name}</strong>
+              <small>
+                {block.formatLabel || "Document"} · {formatBytes(block.size || 0)}{" "}
+                · View only, opens in the secure viewer
+              </small>
+            </span>
+          </button>
+        </div>
+      )}
       {url &&
+        !block.secureFileId &&
         !block.mime?.startsWith("image/") &&
         !block.mime?.startsWith("video/") && (
           <div style={frameStyle}>
-            <a className="docs-file-preview" href={url} download={block.name}>
+            <div className="docs-file-preview is-legacy">
               <Paperclip size={20} />
               <span>
                 <strong>{block.name}</strong>
                 <small>
-                  {Math.ceil((block.size || 0) / 1024)} KB · Click to download
+                  {Math.ceil((block.size || 0) / 1024)} KB · Uploaded before
+                  view-only was enabled. Replace it to protect this file.
                 </small>
               </span>
-            </a>
+            </div>
           </div>
         )}
       {isAdmin && url && block.mime?.startsWith("image/") && (
@@ -628,7 +654,7 @@ function MediaBlock({ block, isAdmin, onFile, onUpdate }) {
           )}
         </div>
       )}
-      {!url && (
+      {!url && !block.secureFileId && (
         <button
           className="docs-media-empty"
           disabled={!isAdmin}
@@ -653,7 +679,7 @@ function MediaBlock({ block, isAdmin, onFile, onUpdate }) {
           </span>
         </button>
       )}
-      {isAdmin && url && (
+      {isAdmin && (url || block.secureFileId) && (
         <button
           className="docs-replace-media"
           onClick={() => inputRef.current?.click()}
@@ -798,6 +824,7 @@ function BlankPageEditor({
   requestDelete,
   attachFile,
   addPastedImage,
+  onOpenSecure,
   openPicker,
 }) {
   return (
@@ -929,6 +956,7 @@ function BlankPageEditor({
                 isAdmin={isAdmin}
                 onFile={(file) => attachFile(block.id, file)}
                 onUpdate={(changes) => updateBlock(block.id, changes)}
+                onOpenSecure={onOpenSecure}
               />
             )}
             {block.type === "embed-video" && (
@@ -1034,6 +1062,8 @@ export default function DocumentationPortal() {
   const [deleteRequest, setDeleteRequest] = useState(null);
   const [deletePassword, setDeletePassword] = useState("");
   const [deleteError, setDeleteError] = useState("");
+  const [secureViewerId, setSecureViewerId] = useState(null);
+  const [attachError, setAttachError] = useState("");
 
   useEffect(() => {
     if (isAdmin) return undefined;
@@ -1401,9 +1431,44 @@ export default function DocumentationPortal() {
     setDeletePassword("");
   };
   const attachFile = async (id, file) => {
+    /*
+     * Attachments that we can render in-page go into the secure store instead
+     * of the plain asset store, so the page shows a view-only card rather than
+     * a download link. The grant mirrors the knowledge base the page lives in,
+     * which is the access the author already configured.
+     */
+    setAttachError("");
+    if (formatFor(file.name)) {
+      let record;
+      try {
+        record = await uploadSecureFile(file, {
+          kbId: knowledgeBaseId,
+          viewAccess:
+            knowledgeBase.viewAccess === "anyone" ? "anyone" : "specific",
+          viewers: knowledgeBase.viewers || [],
+          allowDownload: false,
+          watermark: true,
+        });
+      } catch (cause) {
+        /* Never fall back to the plain asset store here - that would quietly
+           turn a protected document back into a download. */
+        setAttachError(cause.message);
+        return;
+      }
+      updateBlock(id, {
+        secureFileId: record.id,
+        assetId: null,
+        name: record.name,
+        formatLabel: record.formatLabel,
+        mime: record.mime,
+        size: record.size,
+      });
+      return;
+    }
     const assetId = await storeAsset(file);
     updateBlock(id, {
       assetId,
+      secureFileId: null,
       name: file.name,
       mime: file.type || "application/octet-stream",
       size: file.size,
@@ -1569,6 +1634,20 @@ export default function DocumentationPortal() {
 
   return (
     <div className={`docs-app ${isAdmin ? "admin-mode" : "viewer-mode"}`}>
+      {secureViewerId && (
+        <SecureFileViewer
+          fileId={secureViewerId}
+          onClose={() => setSecureViewerId(null)}
+        />
+      )}
+      {attachError && (
+        <div className="docs-attach-error" role="alert">
+          <span>{attachError}</span>
+          <button onClick={() => setAttachError("")}>
+            <X size={14} />
+          </button>
+        </div>
+      )}
       <header className="docs-topbar">
         <button
           className="docs-mobile-menu"
@@ -1833,6 +1912,7 @@ export default function DocumentationPortal() {
                 requestDelete={requestDelete}
                 attachFile={attachFile}
                 addPastedImage={addPastedImage}
+                onOpenSecure={setSecureViewerId}
                 openPicker={() => setBlockPicker(true)}
               />
             ) : (
