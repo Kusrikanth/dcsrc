@@ -1,55 +1,53 @@
-**Comparison target**
+**Design QA**
 
-- Source visual truth: user-provided Transport Management screenshot in the conversation (desktop, 1920 × 853 px).
-- Implementation route: `http://127.0.0.1:4173/transport-messaging`.
-- Implementation screenshot: unavailable; this session does not expose the required in-app browser/capture surface.
-- Intended viewport: 1920 × 853 CSS px at device scale factor 1.
-- State: route list with composer closed; composer interaction state also requires capture.
-- Density normalization: source is treated as 1×; implementation capture could not be produced.
-
-**Findings**
-
-- [P0] Browser-rendered comparison evidence is unavailable.
-  Location: full screen and message composer.
-  Evidence: the source image is available in the conversation, but no browser-rendered implementation screenshot can be captured in this session.
-  Impact: typography, spacing, color, asset fidelity, copy wrapping, and responsive behavior cannot be certified visually.
-  Fix: open the local route in the in-app browser, capture the 1920 × 853 list state and the composer state, and compare each beside the source.
-
-**Required fidelity surfaces**
-
-- Fonts and typography: implemented with Segoe UI/Arial to approximate the source; blocked from visual confirmation.
-- Spacing and layout rhythm: implemented against the source's 275 px sidebar, 73 px top bar, dense filter row, and table proportions; blocked from rendered confirmation.
-- Colors and visual tokens: dark charcoal navigation, pale blue-gray canvas, white card, muted blue-gray labels, and blue actions are mapped in CSS; blocked from pixel-level confirmation.
-- Image quality and asset fidelity: the screen contains no content photography. UI icons use the installed icon library. The source school crest was not recreated; the existing product convention of an icon-and-text brand lockup was retained.
-- Copy and content: route data, selection copy, four template variables, WhatsApp/mobile channels, validation, and confirmation copy are implemented.
+- Source visual truth: user-attached desktop documentation screenshot (not exposed as a local file)
+- Implementation route: `/documentation`
+- Intended viewport: 1910 × 908 CSS px, desktop, admin state
+- Source pixels: 1910 × 908 as displayed in the conversation
+- Implementation pixels: unavailable
+- Density normalization: source displayed at 1×; implementation capture unavailable
+- State: Student Profile documentation, admin editing enabled
 
 **Full-view comparison evidence**
 
-- Blocked: implementation screenshot unavailable.
+Blocked. This session does not provide a cloud/in-app browser, and the user attachment is not available as a local image path. The implementation therefore could not be rendered and placed beside the source visual for the required comparison.
 
-**Focused region comparison evidence**
+**Focused-region comparison evidence**
 
-- Blocked: route selection controls and composer preview cannot be captured.
+Blocked for the same reason. Code-level review covered the top bar, left navigation, content article, section table of contents, fields table, editor bar, viewer watermark and responsive states, but code review is not a substitute for visual evidence.
 
-**Primary interactions tested**
+**Findings**
 
-- Production build succeeds.
-- Dev route responds with HTTP 200.
-- Browser-level clicks, form validation, and console errors could not be tested because the required browser surface is unavailable.
+- [P1] Browser-rendered visual evidence is unavailable.
+  Location: full `/documentation` experience.
+  Evidence: production build passes, but no browser capture can be produced in the available toolset.
+  Impact: precise typography, spacing and viewport fidelity cannot be signed off visually.
+  Fix: open the route in a supported browser and compare a 1910 × 908 capture with the supplied reference.
 
-**Implementation Checklist**
+**Required fidelity surfaces**
 
-- Capture route list at 1920 × 853.
-- Capture composer with two or more selected routes and a 15-minute delay.
-- Verify select-all, individual deselection, channel toggles, validation, success toast, and console.
-- Fix any P0/P1/P2 visual mismatches and repeat comparison.
+- Fonts and typography: implemented with Segoe UI/Inter/Arial and reference-matched hierarchy; browser comparison blocked.
+- Spacing and layout rhythm: implemented as fixed 300 px navigation, flexible article and 220 px page index; browser comparison blocked.
+- Colors and visual tokens: implemented with teal, navy, neutral borders and white surfaces derived from the reference; browser comparison blocked.
+- Image quality and asset fidelity: the reference contains no content photography; interface icons use the project's existing icon library. Browser comparison blocked.
+- Copy and content: ERP-specific Student Profile documentation is implemented with realistic fields, permissions and history.
 
-**Follow-up Polish**
+**Primary interactions checked**
 
-- Confirm exact brand crest and typography assets if supplied separately.
+- Production compilation: passed.
+- Admin/viewer role switching: code reviewed.
+- Inline editing, field addition, discard and local publish persistence: code reviewed.
+- Read-only copy, cut, context-menu and shortcut deterrence: code reviewed.
+- Console errors: blocked because no browser is available.
 
 **Comparison history**
 
-- Initial pass: blocked before visual comparison because no implementation capture is available.
+- Initial pass: blocked before visual comparison; no visual fixes could be evidence-driven.
+
+**Implementation checklist**
+
+- Capture `/documentation` at 1910 × 908 in admin state.
+- Test Admin → Viewer and verify watermark and copy deterrence.
+- Compare the source and implementation together and fix any P1/P2 drift.
 
 final result: blocked
