@@ -1,0 +1,1049 @@
+/* View-only document library + viewer. Tokens mirror home.css. */
+
+.secure-library,
+.secure-viewer {
+  --ink: #172033;
+  --muted: #667085;
+  --line: #e3e7ec;
+  --teal: #087d72;
+  --teal-dark: #315f68;
+  --danger: #b42318;
+  --warn: #b54708;
+  --surface: #fff;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: var(--ink);
+  box-sizing: border-box;
+}
+
+.secure-library *,
+.secure-viewer * {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------------ shell */
+
+.secure-library {
+  min-height: 100vh;
+  background: #f4f6f8;
+  padding: 26px clamp(16px, 4vw, 40px) 40px;
+  display: grid;
+  gap: 20px;
+  align-content: start;
+}
+
+.secure-library-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.secure-library-head h1 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-size: 20px;
+  color: var(--teal-dark);
+}
+
+.secure-library-head p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+.secure-identity {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 13px;
+  display: grid;
+  gap: 5px;
+  min-width: 260px;
+}
+
+.secure-identity label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.secure-identity input {
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 0 9px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.secure-identity small,
+.secure-hint {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------- dropzone */
+
+.secure-dropzone {
+  border: 1.5px dashed #c6cfd8;
+  border-radius: 10px;
+  background: var(--surface);
+  padding: 26px 20px;
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--teal-dark);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.secure-dropzone:hover,
+.secure-dropzone.is-dragging {
+  border-color: var(--teal);
+  background: #f2fbf9;
+}
+
+.secure-dropzone strong {
+  font-size: 14px;
+}
+
+.secure-dropzone small {
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.secure-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 13px;
+  border-radius: 7px;
+  background: #fef3f2;
+  border: 1px solid #fecdca;
+  color: var(--danger);
+  font-size: 12.5px;
+}
+
+/* ------------------------------------------------------------------- list */
+
+.secure-library-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.secure-library-body:has(.secure-access-panel) {
+  grid-template-columns: minmax(0, 1fr) 340px;
+}
+
+.secure-file-grid {
+  display: grid;
+  gap: 11px;
+}
+
+.secure-file-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 13px 15px;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+}
+
+.secure-file-card.is-blocked {
+  opacity: 0.72;
+  background: #fafbfc;
+}
+
+.secure-file-icon {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  color: var(--teal-dark);
+}
+
+.secure-file-icon span {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.secure-file-main {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.secure-file-main strong {
+  font-size: 13.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.secure-file-main small {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.secure-file-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.secure-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: #eef2f6;
+  color: #445;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.secure-chip.is-good {
+  background: #e7f6f3;
+  color: var(--teal);
+}
+
+.secure-chip.is-warn {
+  background: #fff4e5;
+  color: var(--warn);
+}
+
+.secure-chip.is-danger {
+  background: #fef3f2;
+  color: var(--danger);
+}
+
+.secure-file-actions {
+  display: grid;
+  gap: 6px;
+  justify-items: stretch;
+  min-width: 130px;
+}
+
+.secure-reason {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+}
+
+.secure-empty {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 44px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.secure-empty strong {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+.secure-primary,
+.secure-ghost,
+.secure-danger,
+.secure-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.secure-primary {
+  background: var(--teal);
+  color: #fff;
+}
+
+.secure-primary:hover:not(:disabled) {
+  background: #06695f;
+}
+
+.secure-ghost {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.secure-ghost:hover:not(:disabled) {
+  border-color: #c6cfd8;
+  background: #f7f9fa;
+}
+
+.secure-danger {
+  background: #fff;
+  border-color: #fecdca;
+  color: var(--danger);
+}
+
+.secure-danger:hover {
+  background: #fef3f2;
+}
+
+.secure-icon {
+  width: 32px;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+}
+
+.secure-icon:hover {
+  background: #f2f4f6;
+}
+
+.secure-primary:disabled,
+.secure-ghost:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ----------------------------------------------------------- access panel */
+
+.secure-access-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  position: sticky;
+  top: 18px;
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+}
+
+.secure-access-panel > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 2;
+}
+
+.secure-access-panel header strong {
+  display: block;
+  font-size: 13px;
+}
+
+.secure-access-panel header small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.secure-access-panel section {
+  padding: 14px 15px;
+  border-bottom: 1px solid #f0f2f5;
+  display: grid;
+  gap: 9px;
+}
+
+.secure-access-panel h4 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.secure-radio,
+.secure-toggle {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  cursor: pointer;
+  font-size: 12.5px;
+}
+
+.secure-radio input,
+.secure-toggle input {
+  margin-top: 2px;
+  accent-color: var(--teal);
+}
+
+.secure-radio small,
+.secure-toggle small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.secure-access-panel textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px 9px;
+  font: inherit;
+  font-size: 12.5px;
+  resize: vertical;
+}
+
+.secure-viewer-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.secure-viewer-chips span {
+  background: #eef2f6;
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 11px;
+}
+
+.secure-field {
+  display: grid;
+  gap: 5px;
+  font-size: 12.5px;
+}
+
+.secure-field span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.secure-field input {
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 0 9px;
+  font: inherit;
+  font-size: 12.5px;
+}
+
+.secure-danger-zone {
+  background: #fffbfa;
+}
+
+.secure-confirm {
+  display: grid;
+  gap: 7px;
+  font-size: 12px;
+}
+
+.secure-confirm p {
+  margin: 0;
+}
+
+.secure-confirm > div {
+  display: flex;
+  gap: 7px;
+}
+
+.secure-audit {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.secure-audit li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 8px;
+}
+
+.secure-audit b {
+  color: var(--ink);
+  text-transform: capitalize;
+}
+
+.secure-audit small {
+  grid-column: 1 / -1;
+  font-size: 10.5px;
+}
+
+.secure-disclosure {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  padding: 13px 15px;
+  border-radius: 8px;
+  background: #eef4f4;
+  border: 1px solid #d5e4e2;
+  color: var(--teal-dark);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.secure-disclosure p {
+  margin: 0;
+}
+
+/* ----------------------------------------------------------------- viewer */
+
+/*
+ * Above every other layer in the app. The viewer is mounted inside host screens
+ * that have their own fixed chrome (the documentation topbar sits at 80, modals
+ * go up to 200); anything painting over it would leave the close button
+ * unclickable and the document partly obscured.
+ */
+.secure-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: #eceef1;
+  display: grid;
+  grid-template-rows: 52px minmax(0, 1fr);
+}
+
+.secure-viewer.is-locked .secure-viewer-body {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.secure-viewer.is-locked img,
+.secure-viewer.is-locked canvas {
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.secure-viewer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.secure-viewer-title {
+  min-width: 0;
+}
+
+.secure-viewer-title strong {
+  display: block;
+  font-size: 13.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.secure-viewer-title small {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.secure-viewer-tools {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+}
+
+.secure-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.secure-badge.is-locked {
+  background: #e7f6f3;
+  color: var(--teal);
+}
+
+.secure-badge.is-open {
+  background: #fff4e5;
+  color: var(--warn);
+}
+
+.secure-zoom {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.secure-zoom button {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.secure-zoom button:hover:not(:disabled) {
+  background: #f2f4f6;
+}
+
+.secure-zoom button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.secure-zoom b {
+  font-size: 11.5px;
+  min-width: 38px;
+  text-align: center;
+}
+
+.secure-viewer-body {
+  position: relative;
+  overflow: auto;
+  padding: 22px 16px 40px;
+}
+
+/* ------------------------------------------------------------- watermark */
+
+/*
+ * Fixed, not absolute. An absolutely positioned overlay scrolls away with the
+ * content, leaving every page after the first one unstamped - exactly the pages
+ * someone scrolls to before taking a screenshot.
+ */
+.secure-watermark {
+  position: fixed;
+  inset: 52px 0 0 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-content: space-around;
+  transform: rotate(-24deg) scale(1.4);
+}
+
+.secure-watermark span {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(23, 32, 51, 0.07);
+  white-space: nowrap;
+  text-align: center;
+  padding: 22px 0;
+}
+
+/* --------------------------------------------------------------- surfaces */
+
+.secure-surface-state {
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  padding: 70px 20px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.secure-surface-state.is-error {
+  color: var(--danger);
+}
+
+.secure-surface-state p {
+  margin: 0;
+  max-width: 52ch;
+  text-align: center;
+}
+
+.secure-spin {
+  animation: secure-spin 1s linear infinite;
+}
+
+@keyframes secure-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.secure-surface-note {
+  max-width: 70ch;
+  margin: 14px auto 0;
+  font-size: 11.5px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.secure-pdf {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+}
+
+.secure-pdf-page {
+  position: relative;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(16, 24, 40, 0.14);
+  min-height: 320px;
+  min-width: 260px;
+}
+
+.secure-pdf-page canvas {
+  display: block;
+}
+
+.secure-pdf-number {
+  position: absolute;
+  bottom: 6px;
+  right: 8px;
+  font-size: 10px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.secure-docx {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.secure-docx-page {
+  background: #fff;
+  padding: clamp(24px, 5vw, 56px);
+  box-shadow: 0 1px 4px rgba(16, 24, 40, 0.14);
+  line-height: 1.65;
+}
+
+.secure-docx-page img {
+  max-width: 100%;
+  height: auto;
+}
+
+.secure-docx-page table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+}
+
+.secure-docx-page td,
+.secure-docx-page th {
+  border: 1px solid var(--line);
+  padding: 6px 9px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.secure-sheet {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.secure-sheet-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 7px 9px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+
+.secure-sheet-tabs button {
+  border: 1px solid transparent;
+  border-bottom: 0;
+  background: transparent;
+  padding: 6px 13px;
+  border-radius: 5px 5px 0 0;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.secure-sheet-tabs button.active {
+  background: #f4f6f8;
+  border-color: var(--line);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.secure-sheet-scroll {
+  overflow: auto;
+  max-height: calc(100vh - 190px);
+}
+
+.secure-sheet-scroll table {
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+.secure-sheet-scroll th,
+.secure-sheet-scroll td {
+  border: 1px solid #e8ebef;
+  padding: 4px 9px;
+  text-align: left;
+  min-width: 76px;
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.secure-sheet-scroll thead th,
+.secure-sheet-scroll tbody th {
+  background: #f4f6f8;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.9em;
+  text-align: center;
+  position: sticky;
+  min-width: 44px;
+}
+
+.secure-sheet-scroll thead th {
+  top: 0;
+  z-index: 2;
+}
+
+.secure-sheet-scroll tbody th {
+  left: 0;
+  z-index: 1;
+}
+
+.secure-sheet-corner {
+  left: 0;
+  z-index: 3 !important;
+}
+
+.secure-slides {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+.secure-slide-stage {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(16, 24, 40, 0.18);
+}
+
+.secure-slide-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+}
+
+.secure-slide-text,
+.secure-slide-image,
+.secure-slide-table {
+  position: absolute;
+  overflow: hidden;
+}
+
+.secure-slide-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.secure-slide-text p,
+.secure-slide-table p {
+  margin: 0 0 4px;
+  font-size: 18px;
+  line-height: 1.28;
+  word-wrap: break-word;
+}
+
+.secure-slide-text p.is-bulleted,
+.secure-slide-table p.is-bulleted {
+  padding-left: 16px;
+  position: relative;
+}
+
+.secure-slide-text p.is-bulleted::before {
+  content: "•";
+  position: absolute;
+  left: 2px;
+}
+
+.secure-slide-image {
+  object-fit: contain;
+}
+
+.secure-slide-table table {
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+}
+
+.secure-slide-table td {
+  border: 1px solid #c6cfd8;
+  padding: 4px 7px;
+  vertical-align: middle;
+}
+
+.secure-slide-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 5px 9px;
+  font-size: 12px;
+}
+
+.secure-slide-bar button {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--teal-dark);
+}
+
+.secure-slide-bar button:hover:not(:disabled) {
+  background: #eef4f4;
+}
+
+.secure-slide-bar button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------- denied + print */
+
+.secure-viewer.is-denied {
+  grid-template-rows: 1fr;
+  place-items: center;
+  background: #f4f6f8;
+}
+
+.secure-denied-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  padding: 34px 38px;
+  max-width: 440px;
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.secure-denied-card svg {
+  color: var(--danger);
+}
+
+.secure-denied-card h2 {
+  margin: 4px 0 0;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.secure-denied-card p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.secure-denied-meta {
+  font-size: 11.5px !important;
+  color: #98a2b3;
+}
+
+.secure-denied-card button {
+  margin-top: 9px;
+}
+
+/*
+ * Printing a view-only document would defeat the whole feature, so the page is
+ * blanked and replaced with a notice for anyone who reaches the print dialog by
+ * a route the keydown guard cannot intercept (browser menu, OS shortcut).
+ */
+@media print {
+  body.secure-print-guard * {
+    visibility: hidden !important;
+  }
+
+  body.secure-print-guard::after {
+    content: "This document is view-only. Printing is not permitted.";
+    visibility: visible;
+    display: block;
+    position: fixed;
+    inset: 0;
+    padding-top: 44vh;
+    text-align: center;
+    font: 700 16px "Segoe UI", Arial, sans-serif;
+    color: #172033;
+  }
+}
+
+@media (max-width: 900px) {
+  .secure-library-body:has(.secure-access-panel) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .secure-access-panel {
+    position: static;
+    max-height: none;
+  }
+
+  .secure-file-card {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+
+  .secure-file-actions {
+    grid-column: 1 / -1;
+    grid-auto-flow: column;
+    justify-content: start;
+  }
+}

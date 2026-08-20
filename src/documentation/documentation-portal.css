@@ -2239,3 +2239,53 @@
     font-size: 14px;
   }
 }
+
+/* View-only attachment card: replaces the old download link. */
+.docs-file-preview.is-secure {
+  width: 100%;
+  border: 1px solid #d5e4e2;
+  background: #f4faf9;
+  color: #315f68;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.docs-file-preview.is-secure:hover {
+  border-color: #087d72;
+  background: #eaf6f4;
+}
+
+.docs-file-preview.is-legacy {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.docs-attach-error {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 910;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(560px, 92vw);
+  padding: 11px 12px 11px 15px;
+  border-radius: 8px;
+  background: #fef3f2;
+  border: 1px solid #fecdca;
+  color: #b42318;
+  font-size: 12.5px;
+  box-shadow: 0 4px 14px rgba(16, 24, 40, 0.14);
+}
+
+.docs-attach-error button {
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 2px;
+}
