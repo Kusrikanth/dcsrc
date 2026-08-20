@@ -240,10 +240,17 @@ export function evaluateAccess(record, user = CURRENT_KB_USER) {
   const blocked = { canView: false, canDownload: false, isOwner: false };
   if (!record) return { ...blocked, reason: "This file no longer exists." };
 
+  /*
+   * Owning a file grants management rights - open it, change its grants, delete
+   * it - but NOT an automatic download. "Allow download" is the only switch
+   * that decides whether anyone gets the original bytes, owner included;
+   * otherwise the toggle silently does nothing for the person most likely to be
+   * testing it.
+   */
   if (normalizeEmail(record.ownerEmail) === person.email)
     return {
       canView: true,
-      canDownload: true,
+      canDownload: Boolean(record.allowDownload),
       isOwner: true,
       reason: "You own this file.",
     };

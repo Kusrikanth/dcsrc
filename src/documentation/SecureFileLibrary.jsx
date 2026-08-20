@@ -200,8 +200,9 @@ function AccessPanel({ record, onChange, onDelete, onClose }) {
           <span>
             <b>Allow download</b>
             <small>
-              Off by default. Turning this on lets granted people save the
-              original file - the opposite of view-only.
+              Off by default, and it applies to everyone including you. Turning
+              it on lets anyone with view access save the original file - the
+              opposite of view-only.
             </small>
           </span>
         </label>

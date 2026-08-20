@@ -76,8 +76,11 @@ error asks the author to save as `.docx` / `.pptx` instead.
 Each upload starts locked: **specific people**, with nobody on the list. The
 access panel controls the view rule (`anyone` / `specific` / `no-one`), the
 granted email addresses, an optional expiry date, an **Allow download** override
-that is off by default, and identity watermarking. Revoking cuts off every
-recipient at once while the owner keeps their own file. Uploads, access changes
+that is off by default, and identity watermarking. **Allow download** is the
+only thing that decides whether the original bytes ever leave the viewer, and it
+applies to the owner too — owning a file grants management rights, not a
+download bypass. Revoking cuts off every recipient at once while the owner keeps
+their own file. Uploads, access changes
 and every open are written to an audit trail.
 
 Use the **Previewing as** box to borrow another person's identity and confirm
