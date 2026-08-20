@@ -1,0 +1,32 @@
+.kbm-code {
+  width: 100%;
+  min-height: 47px;
+  margin-top: 13px;
+  padding: 7px 10px;
+  border: 1px dashed #9cc8c2;
+  border-radius: 6px;
+  background: #f4faf8;
+  color: #087d72;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  cursor: pointer;
+}
+.kbm-code span,
+.kbm-code small,
+.kbm-code strong {
+  display: block;
+}
+.kbm-code small {
+  font-size: 7.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.55px;
+  color: #758582;
+}
+.kbm-code strong {
+  font-family: Consolas, monospace;
+  font-size: 10px;
+  margin-top: 3px;
+  letter-spacing: 0.35px;
+}

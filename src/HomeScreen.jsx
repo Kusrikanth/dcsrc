@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import {
   Bell, Bold, BookOpen, CalendarDays, Cake, Check, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight,
-  CheckCheck, ClipboardCheck, Clock3, FileText, Home, Italic, Link, List, Menu, MessageCircle, MessageSquareText, Search, Settings,
+  CheckCheck, ClipboardCheck, Clock3, FileText, Home, Italic, Library, Link, List, Menu, MessageCircle, MessageSquareText, Search, Settings,
   Plus, Save, Smartphone, Underline, UserCheck, UserRoundCog, Users, X, XCircle,
 } from 'lucide-react';
 import './home.css';
@@ -426,6 +426,7 @@ export default function HomeScreen() {
           <a href="#events"><CalendarDays size={18} />Calendar</a>
           <a href="/student-profile"><BookOpen size={18} />Student Profile</a>
           <a href="/approval-configuration"><Settings size={18} />Approval Setup</a>
+          <a href="/documentation-management"><Library size={18} />Documentation</a>
         </nav>
       </aside>
 
